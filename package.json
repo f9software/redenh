@@ -1,0 +1,23 @@
+{
+  "name": "@f9software/reducers",
+  "version": "1.0.0",
+  "description": "A default set of reducers and enhancers. More reducers and enhancers can be registered.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "node jasmine.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/f9software/reducers.git"
+  },
+  "author": "Iulian Ilea <iulian@f9software.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/f9software/reducers/issues"
+  },
+  "homepage": "https://github.com/f9software/reducers#readme",
+  "devDependencies": {
+    "@types/jasmine": "^2.8.6",
+    "jasmine": "^3.1.0"
+  }
+}
