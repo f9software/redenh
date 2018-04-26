@@ -25,12 +25,13 @@ describe('Basic usage', () => {
 
 
         // boolean
-        expect(reduce(true, 'boolean')).toBe(1);
-        expect(reduce(false, 'boolean')).toBe(0);
-        expect(enhance(1, 'boolean')).toBe(true);
-        expect(enhance(0, 'boolean')).toBe(false);
+        expect(reduce(true, 'boolean')).toBe(true);
+        expect(reduce(false, 'boolean')).toBe(false);
+        expect(enhance(true, 'boolean')).toBe(true);
+        expect(enhance(false, 'boolean')).toBe(false);
         expect(enhance(-1, 'boolean')).toBe(false);
         expect(enhance(2, 'boolean')).toBe(false);
+        expect(enhance('true', 'boolean')).toBe(false);
 
 
         // date
