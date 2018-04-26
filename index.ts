@@ -1,4 +1,5 @@
-import {Type} from "./src/Type";
+import {Type} from './src/Type';
+export {Type} from './src/Type';
 
 const datets = new Type((date: Date) => date.getTime(), ts => new Date(<number> ts));
 
