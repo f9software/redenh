@@ -1,9 +1,9 @@
 export class Type<T> {
-    private reducer: (value: T) => string | number;
+    private reducer: (value: T) => string | number | boolean;
 
-    private enhancer: (value: string | number) => T;
+    private enhancer: (value: string | number | boolean) => T;
 
-    constructor(reducer: (value: T) => (string | number) = null, enhancer: (value: string | number) => T = null) {
+    constructor(reducer: (value: T) => (string | number | boolean) = null, enhancer: (value: string | number | boolean) => T = null) {
         if (reducer) {
             this.setReducer(reducer);
         }
@@ -13,19 +13,19 @@ export class Type<T> {
         }
     }
 
-    setReducer(reducer: (value: T) => string | number) {
+    setReducer(reducer: (value: T) => string | number | boolean) {
         this.reducer = reducer;
     }
 
-    setEnhancer(enhancer: (value: string | number) => T) {
+    setEnhancer(enhancer: (value: string | number | boolean) => T) {
         this.enhancer = enhancer;
     }
 
-    reduce(value: T): string | number {
+    reduce(value: T): string | number | boolean {
         return this.reducer(value);
     }
 
-    enhance(value: string | number) : T {
+    enhance(value: string | number | boolean) : T {
         return this.enhancer(value);
     }
 }
