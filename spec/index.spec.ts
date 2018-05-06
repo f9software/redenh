@@ -61,6 +61,40 @@ describe('Basic usage', () => {
         };
         expect(reduce(a1)).toEqual(a1Reduced);
         expect(enhance(a1Reduced)).toEqual(a1);
+
+
+        const m1 = {
+            number: 1,
+            boolean: true,
+            string: 'false',
+            date: d,
+            array: a1
+        };
+        const m1Reduced = {
+            $type: 'map',
+            $value: {
+                number: {
+                    $type: 'number',
+                    $value: 1
+                },
+                boolean: {
+                    $type: 'boolean',
+                    $value: true
+                },
+                string: {
+                    $type: 'string',
+                    $value: 'false'
+                },
+                date: {
+                    $type: 'date',
+                    $value: ts
+                },
+                array: a1Reduced
+            }
+        };
+
+        expect(reduce(m1)).toEqual(m1Reduced);
+        expect(enhance(m1Reduced)).toEqual(m1);
     })
 
 });

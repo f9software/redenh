@@ -57,6 +57,30 @@ const types: {[key: string]: Type<any>} = {
         (redValue): any[] => {
              return (<ReducedValue[]> redValue.$value).map(redValueItem => enhance(redValueItem));
         }
+    ),
+
+    map: new Type(
+        value => typeof value === 'object' && value.constructor === Object,
+        (value: {[key: string]: any}) => {
+            const keys = Object.keys(value);
+            const reducedValues = keys.map(key => reduce(value[key]));
+            const out: {[key: string]: ReducedValue} = {};
+
+            keys.forEach((key, index) => out[key] = reducedValues[index]);
+
+            return {
+                $type: 'map',
+                $value: out
+            };
+        },
+        (redValue: ReducedValue) => {
+            const keys = Object.keys(redValue.$value);
+            const out: {[key: string]: any} = {};
+
+            keys.forEach(key => out[key] = enhance(redValue.$value[key]));
+
+            return out;
+        }
     )
 };
 
