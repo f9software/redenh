@@ -7,7 +7,7 @@ const types: {[key: string]: Type<any>} = {
         value => {
             return {
                 $type: 'string',
-                $value: value
+                $value: value + ''
             }
         },
         redValue => redValue.$value
@@ -18,7 +18,7 @@ const types: {[key: string]: Type<any>} = {
         value => {
             return {
                 $type: 'number',
-                $value: value
+                $value: value * 1
             }
         },
         redValue => redValue.$value
@@ -36,7 +36,7 @@ const types: {[key: string]: Type<any>} = {
     ),
 
     date: new Type(
-        value => value.hasOwnProperty('now'),
+        value => typeof value.getTime === 'function',
         (date: Date) => {
             return {
                 $type: 'date',

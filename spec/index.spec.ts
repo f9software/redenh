@@ -5,47 +5,40 @@ describe('Basic usage', () => {
 
     it('Basic', () => {
         // string
-        expect(reduce('1', 'string')).toBe('1');
-        expect(reduce(1, 'string')).toBe('1');
-        expect(reduce(true, 'string')).toBe('true');
+        expect(reduce('1', 'string')).toEqual({$type: 'string', $value: '1'});
+        expect(reduce('1')).toEqual({$type: 'string', $value: '1'});
 
         class A {
             toString() {
                 return 'This is A';
             }
         }
-        expect(reduce(new A(), 'string')).toBe('This is A');
+        expect(reduce(new A(), 'string')).toEqual({$type: 'string', $value: 'This is A'});
 
 
         // number
-        expect(reduce(1, 'number')).toBe(1);
-        expect(reduce('-1', 'number')).toBe(-1);
-        expect(enhance(-1, 'number')).toBe(-1);
-        expect(reduce('111', 'number')).toBe(111);
+        expect(reduce(1, 'number')).toEqual({$type: 'number', $value: 1});
+        expect(reduce('-1', 'number')).toEqual({$type: 'number', $value: -1});
+        expect(reduce(111)).toEqual({$type: 'number', $value: 111});
+        expect(enhance({$type: 'number', $value: -1})).toEqual(-1);
 
 
         // boolean
-        expect(reduce(true, 'boolean')).toBe(true);
-        expect(reduce(false, 'boolean')).toBe(false);
-        expect(enhance(true, 'boolean')).toBe(true);
-        expect(enhance(false, 'boolean')).toBe(false);
-        expect(enhance(-1, 'boolean')).toBe(false);
-        expect(enhance(2, 'boolean')).toBe(false);
-        expect(enhance('true', 'boolean')).toBe(false);
+        expect(reduce(true, 'boolean')).toEqual({$type: 'boolean', $value: true});
+        expect(reduce(false, 'boolean')).toEqual({$type: 'boolean', $value: false});
+        expect(reduce(true)).toEqual({$type: 'boolean', $value: true});
+
+        expect(enhance({$type: 'boolean', $value: true})).toEqual(true);
+        expect(enhance({$type: 'boolean', $value: false})).toEqual(false);
 
 
         // date
         const d = new Date();
-        const iso = d.toISOString();
         const ts = d.getTime();
-        expect(reduce(d, 'dateiso')).toBe(iso);
-        expect(reduce(d, 'datets')).toBe(ts);
+        expect(reduce(d, 'date')).toEqual({$type: 'date', $value: ts});
+        expect(reduce(d)).toEqual({$type: 'date', $value: ts});
 
-        const d2 = enhance<Date>(iso, 'dateiso')
-        expect(d2.toISOString()).toBe(iso);
-
-        const d3 = enhance<Date>(ts, 'datets');
-        expect(d3.getTime()).toBe(ts);
+        expect(enhance({$type: 'date', $value: ts})).toEqual(d);
     })
 
 });
