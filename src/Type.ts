@@ -8,7 +8,7 @@ export class Type<T> {
 
     private enhancer: (value: ReducedValue) => T;
 
-    constructor(reducer: (value: T) => ReducedValue = null, enhancer: (value: ReducedValue) => T = null) {
+    constructor(private matcher: (value: T) => boolean, reducer: (value: T) => ReducedValue = null, enhancer: (value: ReducedValue) => T = null) {
         if (reducer) {
             this.setReducer(reducer);
         }
@@ -32,5 +32,9 @@ export class Type<T> {
 
     enhance(value: ReducedValue) : T {
         return this.enhancer(value);
+    }
+
+    match(value: T): boolean {
+        return this.matcher(value);
     }
 }
