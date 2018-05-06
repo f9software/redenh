@@ -1,9 +1,14 @@
+export interface ReducedValue {
+    $type: string;
+    $value: any;
+}
+
 export class Type<T> {
-    private reducer: (value: T) => string | number | boolean;
+    private reducer: (value: T) => ReducedValue;
 
-    private enhancer: (value: string | number | boolean) => T;
+    private enhancer: (value: ReducedValue) => T;
 
-    constructor(reducer: (value: T) => (string | number | boolean) = null, enhancer: (value: string | number | boolean) => T = null) {
+    constructor(reducer: (value: T) => ReducedValue = null, enhancer: (value: ReducedValue) => T = null) {
         if (reducer) {
             this.setReducer(reducer);
         }
@@ -13,19 +18,19 @@ export class Type<T> {
         }
     }
 
-    setReducer(reducer: (value: T) => string | number | boolean) {
+    setReducer(reducer: (value: T) => ReducedValue) {
         this.reducer = reducer;
     }
 
-    setEnhancer(enhancer: (value: string | number | boolean) => T) {
+    setEnhancer(enhancer: (value: ReducedValue) => T) {
         this.enhancer = enhancer;
     }
 
-    reduce(value: T): string | number | boolean {
+    reduce(value: T): ReducedValue {
         return this.reducer(value);
     }
 
-    enhance(value: string | number | boolean) : T {
+    enhance(value: ReducedValue) : T {
         return this.enhancer(value);
     }
 }

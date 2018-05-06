@@ -1,15 +1,57 @@
-import {Type} from './src/Type';
-export {Type} from './src/Type';
-
-const datets = new Type((date: Date) => date.getTime(), ts => new Date(<number> ts));
+import {ReducedValue, Type} from './src/Type';
+export {Type, ReducedValue} from './src/Type';
 
 const types: {[key: string]: Type<any>} = {
-    'string': new Type(value => value + '', value => value),
-    'number': new Type(value => value * 1, value => value),
-    'boolean': new Type(value => value === true, value => value === true),
-    'dateiso': new Type((date: Date) => date.toISOString(), isoString => new Date(<any> isoString)),
-    'datets': datets,
-    'date': datets
+
+    string: new Type(
+        value => {
+            return {
+                $type: 'string',
+                $value: value + ''
+            }
+        },
+        redValue => redValue.$value
+    ),
+
+    number: new Type(
+        value => {
+            return {
+                $type: 'number',
+                $value: value * 1
+            }
+        },
+        redValue => redValue.$value
+    ),
+
+    boolean: new Type(
+        value => {
+            return {
+                $type: 'boolean',
+                $value: value === true
+            }
+        },
+        redValue => redValue.$value === true
+    ),
+
+    dateiso: new Type(
+        (date: Date) => {
+            return {
+                $type: 'dateiso',
+                $value: date.toISOString()
+            }
+        },
+        redValue => new Date(<any> redValue.$value)
+    ),
+
+    date: new Type(
+        (date: Date) => {
+            return {
+                $type: 'date',
+                $value: date.getTime()
+            }
+        },
+        redValue => new Date(<number> redValue.$value)
+    )
 };
 
 export function register(type: Type<any>, name: string) {
@@ -22,10 +64,10 @@ export function unregister(name: string) {
     }
 }
 
-export function reduce<T>(value: T, type: string): string | number | boolean {
+export function reduce<T>(value: T, type: string): ReducedValue {
     return types[type].reduce(value);
 }
 
-export function enhance<T>(value: string | number | boolean, type: string): T {
-    return types[type].enhance(value);
+export function enhance<T>(redValue: ReducedValue): T {
+    return types[redValue.$type].enhance(redValue);
 }
