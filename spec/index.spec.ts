@@ -39,6 +39,28 @@ describe('Basic usage', () => {
         expect(reduce(d)).toEqual({$type: 'date', $value: ts});
 
         expect(enhance({$type: 'date', $value: ts})).toEqual(d);
+
+
+        // array
+        const a1 = [1, true, 'false', d];
+        const a1Reduced = {
+            $type: 'array',
+            $value: [{
+                $type: 'number',
+                $value: 1
+            }, {
+                $type: 'boolean',
+                $value: true
+            }, {
+                $type: 'string',
+                $value: 'false'
+            }, {
+                $type: 'date',
+                $value: ts
+            }]
+        };
+        expect(reduce(a1)).toEqual(a1Reduced);
+        expect(enhance(a1Reduced)).toEqual(a1);
     })
 
 });

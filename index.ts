@@ -44,6 +44,19 @@ const types: {[key: string]: Type<any>} = {
             }
         },
         redValue => new Date(<number> redValue.$value)
+    ),
+
+    array: new Type(
+        value => typeof value.splice === 'function',
+        (value: any[]) => {
+            return {
+                $type: 'array',
+                $value: value.map(item => reduce(item))
+            }
+        },
+        (redValue): any[] => {
+             return (<ReducedValue[]> redValue.$value).map(redValueItem => enhance(redValueItem));
+        }
     )
 };
 
