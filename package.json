@@ -1,6 +1,6 @@
 {
   "name": "@f9software/reducers",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A default set of reducers and enhancers. More reducers and enhancers can be registered.",
   "main": "dist/index.js",
   "scripts": {
