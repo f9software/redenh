@@ -4,6 +4,7 @@
   "description": "A default set of reducers and enhancers. More reducers and enhancers can be registered.",
   "main": "dist/index.js",
   "scripts": {
+    "tsc": "./node_modules/.bin/tsc -p tsconfig.json",
     "test": "node jasmine.js"
   },
   "repository": {
@@ -18,6 +19,7 @@
   "homepage": "https://github.com/f9software/reducers#readme",
   "devDependencies": {
     "@types/jasmine": "^2.8.6",
-    "jasmine": "^3.1.0"
+    "jasmine": "^3.1.0",
+    "typescript": "^2.9.1"
   }
 }

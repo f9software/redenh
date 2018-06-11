@@ -4,11 +4,11 @@ export interface ReducedValue {
 }
 
 export class Type<T> {
-    private reducer: (value: T) => ReducedValue;
+    private reducer: ((value: T) => ReducedValue) | undefined;
 
-    private enhancer: (value: ReducedValue) => T;
+    private enhancer: ((value: ReducedValue) => T) | undefined;
 
-    constructor(private matcher: (value: T) => boolean, reducer: (value: T) => ReducedValue = null, enhancer: (value: ReducedValue) => T = null) {
+    constructor(private matcher: (value: T) => boolean, reducer?: (value: T) => ReducedValue, enhancer?: (value: ReducedValue) => T) {
         if (reducer) {
             this.setReducer(reducer);
         }
@@ -27,11 +27,19 @@ export class Type<T> {
     }
 
     reduce(value: T): ReducedValue {
-        return this.reducer(value);
+        if (this.reducer) {
+            return this.reducer(value);
+        }
+
+        throw 'Reducer is undefined.';
     }
 
     enhance(value: ReducedValue) : T {
-        return this.enhancer(value);
+        if (this.enhancer) {
+            return this.enhancer(value);
+        }
+
+        throw 'Enhancer is undefined.';
     }
 
     match(value: T): boolean {

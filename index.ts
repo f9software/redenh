@@ -90,22 +90,21 @@ export function register(type: Type<any>, name: string) {
 
 export function unregister(name: string) {
     if (types.hasOwnProperty(name)) {
-        types[name] = null;
+        delete types[name];
     }
 }
 
-export function findType(value: any): Type<any> {
+export function findType(value: any): Type<any> | undefined {
     const typeNames: string[] = Object.keys(types);
+    let typeName: string | undefined = typeNames.find(typeName => types[typeName].match(value));
 
-    let type: Type<any> = null;
-
-    if (typeNames.some((name: string) => (type = types[name]).match(value))) {
-        return type;
+    if (typeName) {
+        return types[typeName];
     }
 }
 
 export function reduce<T>(value: T, typeName?: string): ReducedValue {
-    let type: Type<T>;
+    let type: Type<T> | undefined;
 
     if (typeName) {
         type = types[typeName];
