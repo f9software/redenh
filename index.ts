@@ -1,7 +1,7 @@
 import {ReducedValue, Type} from './src/Type';
 export {Type, ReducedValue} from './src/Type';
 
-const types: {[key: string]: Type<any>} = {
+const types: {[key: string]: Type<any, any>} = {
     string: new Type(
         value => typeof value === 'string',
         value => {
@@ -18,7 +18,7 @@ const types: {[key: string]: Type<any>} = {
         value => {
             return {
                 $type: 'number',
-                $value: value * 1
+                $value: <number> value * 1
             }
         },
         redValue => redValue.$value
@@ -84,7 +84,7 @@ const types: {[key: string]: Type<any>} = {
     )
 };
 
-export function register(type: Type<any>, name: string) {
+export function register(type: Type<any, any>, name: string) {
     types[name] = type;
 }
 
@@ -94,7 +94,7 @@ export function unregister(name: string) {
     }
 }
 
-export function findType(value: any): Type<any> | undefined {
+export function findType(value: any): Type<any, any> | undefined {
     const typeNames: string[] = Object.keys(types);
     let typeName: string | undefined = typeNames.find(typeName => types[typeName].match(value));
 
@@ -104,7 +104,7 @@ export function findType(value: any): Type<any> | undefined {
 }
 
 export function reduce<T>(value: T, typeName?: string): ReducedValue {
-    let type: Type<T> | undefined;
+    let type: Type<T, ReducedValue> | undefined;
 
     if (typeName) {
         type = types[typeName];
